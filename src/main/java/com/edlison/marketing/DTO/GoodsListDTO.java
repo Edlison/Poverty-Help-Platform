@@ -11,7 +11,5 @@ public class GoodsListDTO {
     private Double goods_freight;
     private String goods_sold_num;
     private String goods_area;
-    private String goods_introduce;
     private String goods_small_logo;
-    private String pics;
 }

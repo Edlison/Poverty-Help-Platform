@@ -12,6 +12,5 @@ public class GoodsDetailDTO {
     private String goods_sold_num;
     private String goods_area;
     private String goods_introduce;
-    private String goods_small_logo;
-    private String pics;
+    private String goods_pics;
 }

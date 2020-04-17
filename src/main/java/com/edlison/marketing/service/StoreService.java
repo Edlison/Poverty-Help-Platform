@@ -8,11 +8,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class StoreService {
 
-    @Autowired
-    StoreAppoint storeAppoint;
-
     public SystemResult login(String email, String password) {
 
-        return storeAppoint.login(email, password) ? SystemResult.LOGIN_SUCCESS : SystemResult.LOGIN_PASSWORD_REJECTED;
+        return null;
     }
 }

@@ -7,6 +7,8 @@ public enum SystemResult {
     GOODS_DETAIL_FAILED(201, "get goods detail fail"),
     GOODS_LIST_SUCCESS(200, "get goods list success"),
     GOODS_LIST_FAILED(202, "get goods list fail"),
+    GOODS_SEARCH_SUCCESS(300, "search success"),
+    GOODS_SEARCH_FAILED(301, "search fail"),
     ;
 
     private Integer status;
