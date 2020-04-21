@@ -40,10 +40,11 @@ public class GoodsController {
 
     @PostMapping("/getGoodsList")
     @ResponseBody
-    public JSONObject getGoodsList(@RequestParam(name = "page") Long page) {
+    public JSONObject getGoodsList(@RequestParam(name = "page") Long page,
+                                   @RequestParam(name = "type") Integer type) {
         JSONObject jsonObject = new JSONObject();
         SystemResult res;
-        List<GoodsListDTO> goodsList = goodsService.getGoodsList(page);
+        List<GoodsListDTO> goodsList = goodsService.getGoodsList(page, type);
 
         if (goodsList != null) res = SystemResult.GOODS_LIST_SUCCESS;
         else res = SystemResult.GOODS_LIST_FAILED;

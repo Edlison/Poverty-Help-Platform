@@ -16,6 +16,9 @@ public interface GoodsMapper {
     @Select("select * from goods where goods_id = #{goods_id}")
     GoodsDetailDTO getGoodsDetail(@Param("goods_id")Long goods_id);
 
+    @Select("select * from goods")
+    List<GoodsListDTO> getAllGoodsList();
+
     @Select("select * from goods limit #{start}, #{size}")
     List<GoodsListDTO> getGoodsList(Long start, Long size);
 
