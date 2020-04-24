@@ -20,14 +20,7 @@ public class StoreController {
     @ResponseBody
     public JSONObject login(String email, String password) {
 
-        storeService.login(email, password);
-
-        SystemResult res = SystemResult.LOGIN_PASSWORD_REJECTED;
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("msg", res.getMsg());
-        jsonObject.put("status", res.getStatus());
-
-        return jsonObject;
+        return null;
     }
 
     @PostMapping("/changePassword")

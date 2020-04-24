@@ -1,44 +1,46 @@
 package com.edlison.marketing.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import io.netty.handler.codec.http.HttpResponse;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Value;
+import com.edlison.marketing.result.SystemResult;
+import com.edlison.marketing.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.UUID;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Value("${APPID}")
-    String APPID;
-
-    @Value("${APPSECRET}")
-    String APPSECRET;
-
-    @Value("${JSCODE2SESSION}")
-    String JSCODE2SESSION;
+    @Autowired
+    UserService userService;
 
     @PostMapping("/wxLogin")
     @ResponseBody
-    public JSONObject wxLogin(@RequestParam(name = "code") String code, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public JSONObject wxLogin(@RequestParam(name = "code") String code) throws Exception {
 
-        response.sendRedirect(JSCODE2SESSION + "?appid=" + APPID + "&secret=" + APPSECRET + "&jscode=" + code + "&grant_type=" + UUID.randomUUID().toString());
+        String token = userService.WXLogin(code);
+        SystemResult res;
 
-        int status = response.getStatus();
+        if (token == null || token == "") { // need to update
+            res = SystemResult.LOGIN_WX_FAILED;
+        } else {
+            res = SystemResult.LOGIN_WX_SUCCESS;
+        }
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status", status);
+        jsonObject.put("status", res.getStatus());
+        jsonObject.put("msg", res.getMsg());
+        jsonObject.put("token", token);
 
         return jsonObject;
+    }
+
+
+    @GetMapping("/test")
+    @ResponseBody
+    public String test() {
+        System.out.println("get ok!");
+
+        return "{\"session_key\":\"i7QvaVmChtiVm9hbADBnWg==\",\"openid\":\"owGrn5ULjCuTfIE5Z1re2XqRgvrU\"}";
     }
 }

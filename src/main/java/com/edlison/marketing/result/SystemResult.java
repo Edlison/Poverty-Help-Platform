@@ -3,6 +3,8 @@ package com.edlison.marketing.result;
 public enum SystemResult {
     LOGIN_SUCCESS(100, "login success"),
     LOGIN_PASSWORD_REJECTED(101, "password is rejected"),
+    LOGIN_WX_SUCCESS(100, "login success"),
+    LOGIN_WX_FAILED(101, "login failed"),
     GOODS_DETAIL_SUCCESS(200, "get goods detail success"),
     GOODS_DETAIL_FAILED(201, "get goods detail fail"),
     GOODS_LIST_SUCCESS(200, "get goods list success"),

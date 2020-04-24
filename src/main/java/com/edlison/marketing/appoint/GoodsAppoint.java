@@ -3,7 +3,6 @@ package com.edlison.marketing.appoint;
 import com.edlison.marketing.DTO.GoodsListDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Component
