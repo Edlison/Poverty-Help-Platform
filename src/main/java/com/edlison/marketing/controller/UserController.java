@@ -21,7 +21,7 @@ public class UserController {
         String token = userService.WXLogin(code);
         SystemResult res;
 
-        if (token == null || token == "") { // need to update
+        if (token == null || token == "") { // need to update !
             res = SystemResult.LOGIN_WX_FAILED;
         } else {
             res = SystemResult.LOGIN_WX_SUCCESS;
@@ -35,12 +35,13 @@ public class UserController {
         return jsonObject;
     }
 
-
     @GetMapping("/test")
     @ResponseBody
-    public String test() {
-        System.out.println("get ok!");
+    public JSONObject test() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("openid", "wasd1234");
+        jsonObject.put("session_key", "wasd1234");
 
-        return "{\"session_key\":\"i7QvaVmChtiVm9hbADBnWg==\",\"openid\":\"owGrn5ULjCuTfIE5Z1re2XqRgvrU\"}";
+        return jsonObject;
     }
 }

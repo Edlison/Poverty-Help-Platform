@@ -1,6 +1,7 @@
 package com.edlison.marketing.appoint;
 
 import com.alibaba.fastjson.JSONObject;
+import com.edlison.marketing.result.SystemResult;
 import com.edlison.marketing.utils.SHA;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -25,7 +26,7 @@ public class UserAppoint {
 
     public String doGet(String code) throws Exception{
         String url = JSCODE2SESSION + "?appid=" + APPID + "&secret=" + APPSECRET + "&js_code=" + code + "&grant_type=" + "authorization_code";
-//        String url = "http://localhost:8080/api/user/test";
+//        String url = "http://localhost:8080/api/user/test?code=" + code;
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
@@ -36,12 +37,17 @@ public class UserAppoint {
         return res;
     }
 
-    public String generateToken(JSONObject jsonObject) {
-        String openid = jsonObject.get("openid").toString();
-        String session_key = jsonObject.get("session_key").toString();
+    public String generateToken(String openid, String session_key) {
 
         String sha256 = SHA.SHA256(openid + session_key);
 
         return sha256;
+    }
+
+    public SystemResult checkSessionHelper(String openid, String user_session, String token) {
+        String realToken = SHA.SHA256(openid + user_session);
+
+        if (realToken.equals(token)) return SystemResult.LOGIN_SESSION_SUCCESS;
+        else return SystemResult.LOGIN_SESSION_REJECTED;
     }
 }
