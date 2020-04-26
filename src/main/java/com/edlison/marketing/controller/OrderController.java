@@ -32,7 +32,7 @@ public class OrderController {
         if (!ResultTrans.isOK(checkSessionRes)) {
             jsonObject.put("msg", checkSessionRes.getMsg());
             jsonObject.put("status", checkSessionRes.getStatus());
-//            return jsonObject;
+            return jsonObject;
         }
 
         SystemResult checkOrderRes = orderService.checkOrder(orderDTO);// 检查账户购买权限

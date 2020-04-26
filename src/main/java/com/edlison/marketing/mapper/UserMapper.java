@@ -1,5 +1,6 @@
 package com.edlison.marketing.mapper;
 
+import com.edlison.marketing.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -20,4 +21,10 @@ public interface UserMapper {
 
     @Insert("insert into user (openid, user_session) values (#{openid}, #{session_key})")
     Long insertUser(String openid, String session_key);
+
+    @Select("select * from user where openid = #{openid}")
+    User getUser(@Param("openid") String openid);
+
+    @Update("update user set user_session = #{session_key} where openid = #{openid}")
+    Long updateUser(String openid, String session_key);
 }

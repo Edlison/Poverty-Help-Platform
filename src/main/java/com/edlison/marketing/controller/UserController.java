@@ -18,26 +18,19 @@ public class UserController {
     @ResponseBody
     public JSONObject wxLogin(@RequestParam(name = "code") String code) throws Exception {
 
-        String token = userService.WXLogin(code);
-        SystemResult res;
-
-        if (token == null || token == "") { // need to update !
-            res = SystemResult.LOGIN_WX_FAILED;
-        } else {
-            res = SystemResult.LOGIN_WX_SUCCESS;
-        }
+        SystemResult res = userService.WXLogin(code);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status", res.getStatus());
         jsonObject.put("msg", res.getMsg());
-        jsonObject.put("token", token);
+        jsonObject.put("data", res.getData());
 
         return jsonObject;
     }
 
     @GetMapping("/test")
     @ResponseBody
-    public JSONObject test() throws Exception {
+    public JSONObject test() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("openid", "wasd1234");
         jsonObject.put("session_key", "wasd1234");
