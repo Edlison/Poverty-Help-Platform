@@ -8,10 +8,7 @@ import com.edlison.marketing.service.OrderService;
 import com.edlison.marketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/order")
@@ -38,6 +35,20 @@ public class OrderController {
         SystemResult checkOrderRes = orderService.checkOrder(orderDTO);// 检查账户购买权限
         jsonObject.put("msg", checkOrderRes.getMsg());
         jsonObject.put("status", checkOrderRes.getStatus());
+
+        return jsonObject;
+    }
+
+    @PostMapping("/getOrder")
+    @ResponseBody
+    public JSONObject getOrder(@RequestParam(name = "openid") String openid, @RequestParam(name = "token") String token) {
+        JSONObject jsonObject = new JSONObject();
+
+        SystemResult orderRes = orderService.getOrder(openid, token);
+
+        jsonObject.put("status", orderRes.getStatus());
+        jsonObject.put("msg", orderRes.getMsg());
+        jsonObject.put("data", orderRes.getData());
 
         return jsonObject;
     }

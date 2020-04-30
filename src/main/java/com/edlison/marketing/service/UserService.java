@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.edlison.marketing.appoint.UserAppoint;
 import com.edlison.marketing.mapper.UserMapper;
 import com.edlison.marketing.model.User;
+import com.edlison.marketing.result.ResultTrans;
 import com.edlison.marketing.result.SystemResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,24 @@ public class UserService {
         }
 
         return SystemResult.LOGIN_WX_SUCCESS;
+    }
+
+    public SystemResult getUserInfo(String openid, String token) {
+
+        SystemResult checkSessionRes = checkSession(openid, token);
+
+        if (!ResultTrans.isOK(checkSessionRes)) {
+            return checkSessionRes;
+        } else {
+            User user = userMapper.getUser(openid);
+            JSONObject data = new JSONObject();
+            data.put("user_balance", user.getUser_balance());
+            data.put("user_point", user.getUser_point());
+
+            SystemResult userGetInfoRes = SystemResult.USER_GET_INFO_SUCCESS;
+            userGetInfoRes.setData(data);
+
+            return userGetInfoRes;
+        }
     }
 }

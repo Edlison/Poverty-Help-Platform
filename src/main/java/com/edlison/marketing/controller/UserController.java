@@ -28,6 +28,20 @@ public class UserController {
         return jsonObject;
     }
 
+    @PostMapping("/getUserInfo")
+    @ResponseBody
+    public JSONObject getUserInfo(@RequestParam(name = "openid") String openid, @RequestParam(name = "token") String token) {
+
+        SystemResult userInfoRes = userService.getUserInfo(openid, token);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status", userInfoRes.getStatus());
+        jsonObject.put("msg", userInfoRes.getMsg());
+        jsonObject.put("data", userInfoRes.getData());
+
+        return jsonObject;
+    }
+
     @GetMapping("/test")
     @ResponseBody
     public JSONObject test() {

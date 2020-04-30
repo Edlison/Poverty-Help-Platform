@@ -8,6 +8,8 @@ public enum SystemResult {
     LOGIN_SESSION_SUCCESS(1000, "session check success"),
     LOGIN_SESSION_MISSING_PARAM(1001, "login missing param"),
     LOGIN_SESSION_REJECTED(1002, "session rejected"),
+    USER_GET_INFO_SUCCESS(1010, "user get info success"),
+    USER_GET_INFO_FAILED(1011, "user get info fail"),
     GOODS_DETAIL_SUCCESS(200, "get goods detail success"),
     GOODS_DETAIL_FAILED(201, "get goods detail fail"),
     GOODS_LIST_SUCCESS(200, "get goods list success"),
@@ -17,6 +19,8 @@ public enum SystemResult {
     ORDER_SUBMIT_SUCCESS(400, "order submit success"),
     ORDER_BALANCE_INSUFFICIENT(401, "be short of funds"),
     ORDER_INSERT_DB_ERROR(402, "order insert into db error"),
+    ORDER_GET_INFO_SUCCESS(500, "order get info success"),
+    ORDER_GET_INFO_FAILED(501, "order get info fail"),
     ;
 
     private Integer status;
