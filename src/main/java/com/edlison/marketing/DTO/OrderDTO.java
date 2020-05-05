@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderDTO {
+    private Long order_id;
     private String openid;
     private String token;
     private String express_name;
@@ -12,6 +13,14 @@ public class OrderDTO {
     private BigDecimal order_shipping_money;
     private Long order_point;
     private List<OrderDetailDTO> order_detail;
+
+    public Long getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
+    }
 
     public String getOpenid() {
         return openid;

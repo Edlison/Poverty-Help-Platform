@@ -25,6 +25,11 @@ public class OrderController {
     public JSONObject submitOrder(@RequestBody OrderDTO orderDTO) {
         JSONObject jsonObject = new JSONObject();
 
+        System.out.println(orderDTO.getOrder_detail().get(0).getProduct_name());
+        System.out.println(orderDTO.getOrder_detail().get(0).getProduct_id());
+        System.out.println(orderDTO.getOrder_detail().get(0).getProduct_price());
+        System.out.println(orderDTO.getOrder_detail().get(0).getProduct_num());
+
         SystemResult checkSessionRes = userService.checkSession(orderDTO.getOpenid(), orderDTO.getToken());    // 判断用户登陆态
         if (!ResultTrans.isOK(checkSessionRes)) {
             jsonObject.put("msg", checkSessionRes.getMsg());

@@ -6,6 +6,7 @@ import com.edlison.marketing.appoint.OrderAppoint;
 import com.edlison.marketing.mapper.OrderMapper;
 import com.edlison.marketing.result.ResultTrans;
 import com.edlison.marketing.result.SystemResult;
+import com.edlison.marketing.utils.SnowFlake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,14 @@ public class OrderService {
     }
 
     public SystemResult insertOrder(OrderDTO orderDTO) {
-        Long res = orderMapper.insertOrder(orderDTO);
+        // 生成OrderId
+        Long orderId = SnowFlake.generateOrderId();
+        orderDTO.setOrder_id(orderId);
+        Long orderRes = orderMapper.insertOrder(orderDTO);
+        // order_id 订单编号 需要提前生成 !
+        Long orderDetailRes = orderMapper.insertOrderDetail(orderId, orderDTO.getOrder_detail());
 
-        if (res > 0) return SystemResult.ORDER_SUBMIT_SUCCESS;
+        if (orderRes > 0 && orderDetailRes > 0) return SystemResult.ORDER_SUBMIT_SUCCESS;
         else return SystemResult.ORDER_INSERT_DB_ERROR;
     }
 

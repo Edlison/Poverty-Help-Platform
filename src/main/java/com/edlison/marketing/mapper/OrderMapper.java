@@ -1,6 +1,7 @@
 package com.edlison.marketing.mapper;
 
 import com.edlison.marketing.DTO.OrderDTO;
+import com.edlison.marketing.DTO.OrderDetailDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,9 +14,19 @@ import java.util.List;
 @Component
 public interface OrderMapper {
 
-    @Insert("insert into order_master (openid_fk, express_name, express_address, order_payment, order_shipping_money, order_point) " +
-            "values (#{openid}, #{express_name}, #{express_address}, #{order_payment}, #{order_shipping_money}, #{order_point})")
+    @Insert("insert into order_master (order_id, openid_fk, express_name, express_address, order_payment, order_shipping_money, order_point) " +
+            "values (#{order_id}, #{openid}, #{express_name}, #{express_address}, #{order_payment}, #{order_shipping_money}, #{order_point})")
     Long insertOrder(OrderDTO orderDTO);
+
+    @Insert({"<script> insert into order_detail (order_id_fk, product_id, product_name, product_price, product_num) " +
+            "values " +
+            "<foreach collection=\"list\" item=\"item\" index=\"index\"  separator=\",\"> "+
+            "(#{order_id}, #{item.product_id}, #{item.product_name}, #{item.product_price}, #{item.product_num})" +
+            "</foreach> </script>"})
+    Long insertOrderDetail(@Param("order_id") Long order_id, @Param("list") List<OrderDetailDTO> orderDetailDTOS);
+
+    @Select("select order_id from order_master where openid_fk = #{openid}")
+    Long getOrderId(@Param("openid") String openid);
 
     @Select("select * from order_master where openid_fk = #{openid}")
     List<OrderDTO> getOrder(@Param("openid") String openid);

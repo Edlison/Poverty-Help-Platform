@@ -3,6 +3,7 @@ package com.edlison.marketing.DTO;
 import java.math.BigDecimal;
 
 public class OrderDetailDTO {
+    private Long order_id_fk;
     private Long product_id;
     private String product_name;
     private BigDecimal product_price;
