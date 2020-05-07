@@ -12,6 +12,7 @@ public class OrderDTO {
     private BigDecimal order_payment;
     private BigDecimal order_shipping_money;
     private Long order_point;
+    private Long order_status;
     private List<OrderDetailDTO> order_detail;
 
     public Long getOrder_id() {
@@ -76,6 +77,14 @@ public class OrderDTO {
 
     public void setOrder_point(Long order_point) {
         this.order_point = order_point;
+    }
+
+    public Long getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(Long order_status) {
+        this.order_status = order_status;
     }
 
     public List<OrderDetailDTO> getOrder_detail() {

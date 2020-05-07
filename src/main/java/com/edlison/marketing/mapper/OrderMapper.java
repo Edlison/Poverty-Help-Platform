@@ -14,8 +14,8 @@ import java.util.List;
 @Component
 public interface OrderMapper {
 
-    @Insert("insert into order_master (order_id, openid_fk, express_name, express_address, order_payment, order_shipping_money, order_point) " +
-            "values (#{order_id}, #{openid}, #{express_name}, #{express_address}, #{order_payment}, #{order_shipping_money}, #{order_point})")
+    @Insert("insert into order_master (order_id, openid_fk, express_name, express_address, order_payment, order_shipping_money, order_point, order_status) " +
+            "values (#{order_id}, #{openid}, #{express_name}, #{express_address}, #{order_payment}, #{order_shipping_money}, #{order_point}, #{order_status})")
     Long insertOrder(OrderDTO orderDTO);
 
     @Insert({"<script> insert into order_detail (order_id_fk, product_id, product_name, product_price, product_num) " +

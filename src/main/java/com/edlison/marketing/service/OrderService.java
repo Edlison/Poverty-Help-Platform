@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.edlison.marketing.DTO.OrderDTO;
 import com.edlison.marketing.appoint.OrderAppoint;
 import com.edlison.marketing.mapper.OrderMapper;
+import com.edlison.marketing.result.OrderStatus;
 import com.edlison.marketing.result.ResultTrans;
 import com.edlison.marketing.result.SystemResult;
 import com.edlison.marketing.utils.SnowFlake;
@@ -37,9 +38,13 @@ public class OrderService {
     public SystemResult insertOrder(OrderDTO orderDTO) {
         // 生成OrderId
         Long orderId = SnowFlake.generateOrderId();
+        // 设置order_id
         orderDTO.setOrder_id(orderId);
+        // 设置订单状态
+        orderDTO.setOrder_status(OrderStatus.PAYED.getStatus());
+        // 插入order_master
         Long orderRes = orderMapper.insertOrder(orderDTO);
-        // order_id 订单编号 需要提前生成 !
+        // 插入order_detail
         Long orderDetailRes = orderMapper.insertOrderDetail(orderId, orderDTO.getOrder_detail());
 
         if (orderRes > 0 && orderDetailRes > 0) return SystemResult.ORDER_SUBMIT_SUCCESS;
