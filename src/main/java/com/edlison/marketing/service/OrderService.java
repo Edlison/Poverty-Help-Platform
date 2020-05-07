@@ -55,6 +55,11 @@ public class OrderService {
         } else {
             JSONObject data = new JSONObject();
             List<OrderDTO> orderDTOList = orderMapper.getOrder(openid);
+
+            for (OrderDTO each : orderDTOList) {
+                each.setOrder_detail(orderMapper.getOrderDetail(each.getOrder_id()));
+            }
+
             data.put("orders", orderDTOList);
             SystemResult orderGetInfoRes = SystemResult.ORDER_GET_INFO_SUCCESS;
             orderGetInfoRes.setData(data);

@@ -30,4 +30,7 @@ public interface OrderMapper {
 
     @Select("select * from order_master where openid_fk = #{openid}")
     List<OrderDTO> getOrder(@Param("openid") String openid);
+
+    @Select("select * from order_detail where order_id_fk = #{order_id}")
+    List<OrderDetailDTO> getOrderDetail(@Param("order_id") Long order_id);
 }
