@@ -8,6 +8,7 @@ public class OrderDetailDTO {
     private String product_name;
     private BigDecimal product_price;
     private Long product_num;
+    private String goods_small_logo;
 
     public Long getProduct_id() {
         return product_id;
@@ -39,5 +40,13 @@ public class OrderDetailDTO {
 
     public void setProduct_num(Long product_num) {
         this.product_num = product_num;
+    }
+
+    public String getGoods_small_logo() {
+        return goods_small_logo;
+    }
+
+    public void setGoods_small_logo(String goods_small_logo) {
+        this.goods_small_logo = goods_small_logo;
     }
 }

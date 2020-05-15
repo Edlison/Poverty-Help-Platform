@@ -2,7 +2,9 @@ package com.edlison.marketing.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.edlison.marketing.DTO.OrderDTO;
+import com.edlison.marketing.DTO.OrderDetailDTO;
 import com.edlison.marketing.appoint.OrderAppoint;
+import com.edlison.marketing.mapper.GoodsMapper;
 import com.edlison.marketing.mapper.OrderMapper;
 import com.edlison.marketing.result.OrderStatus;
 import com.edlison.marketing.result.ResultTrans;
@@ -21,6 +23,9 @@ public class OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     @Autowired
     private UserService userService;
@@ -62,7 +67,11 @@ public class OrderService {
             List<OrderDTO> orderDTOList = orderMapper.getOrder(openid);
 
             for (OrderDTO each : orderDTOList) {
-                each.setOrder_detail(orderMapper.getOrderDetail(each.getOrder_id()));
+                List<OrderDetailDTO> orderDetail = orderMapper.getOrderDetail(each.getOrder_id());
+                for (OrderDetailDTO eachDetail : orderDetail) {
+                    eachDetail.setGoods_small_logo(goodsMapper.getGoodsDetail(eachDetail.getProduct_id()).getGoods_small_logo());
+                }
+                each.setOrder_detail(orderDetail);
             }
 
             data.put("orders", orderDTOList);
