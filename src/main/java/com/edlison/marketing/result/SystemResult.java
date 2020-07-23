@@ -21,6 +21,10 @@ public enum SystemResult {
     ORDER_INSERT_DB_ERROR(402, "order insert into db error"),
     ORDER_GET_INFO_SUCCESS(500, "order get info success"),
     ORDER_GET_INFO_FAILED(501, "order get info fail"),
+    INDEX_SWIPER_SUCCESS(600, "get swiper success"),
+    INDEX_SWIPER_FAILED(601, "get swiper failed"),
+    INDEX_GOODS_SUCCESS(700, "get index goods success"),
+    INDEX_GOODS_FAILED(700, "get index goods failed"),
     ;
 
     private Integer status;
