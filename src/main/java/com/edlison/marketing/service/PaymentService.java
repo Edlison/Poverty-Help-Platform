@@ -30,7 +30,9 @@ public class PaymentService {
         if (ResultTrans.isOK(xmlRES)) {
             SystemResult postRES = paymentAppoint.postXML(((String) xmlRES.getData().get("xml")));
             if (ResultTrans.isOK(postRES)) {
-                return SystemResult.PAYMENT_SUCCESS;
+                SystemResult paymentSuccess = SystemResult.PAYMENT_SUCCESS;
+                paymentSuccess.setData(postRES.getData());
+                return paymentSuccess;
             } else {
                 return SystemResult.PAYMENT_FAILED;
             }

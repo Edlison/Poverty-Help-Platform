@@ -18,9 +18,12 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * PaymentAppoint
@@ -114,7 +117,23 @@ public class PaymentAppoint {
         String res = EntityUtils.toString(entity, "utf-8");
         System.out.println(res);
 
-        if (res != null) return SystemResult.POST_XML_SUCCESS;
+        // TODO 解析XML 需要对CDATA进行处理
+//        SAXReader saxReader = new SAXReader();
+//        Document document = saxReader.read(res);
+//        Element xml = document.getRootElement();
+//
+//        List<Element> prepay_id = xml.elements("prepay_id");
+//        String text = prepay_id.get(0).getText();
+//        System.out.println("text = " + text);
+
+        if (res != null) {
+            SystemResult postXmlSuccess = SystemResult.POST_XML_SUCCESS;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("res", res);
+            postXmlSuccess.setData(jsonObject);
+
+            return postXmlSuccess;
+        }
         else return SystemResult.POST_XML_FAILED;
     }
 }
