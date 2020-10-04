@@ -25,6 +25,14 @@ public enum SystemResult {
     INDEX_SWIPER_FAILED(601, "get swiper failed"),
     INDEX_GOODS_SUCCESS(700, "get index goods success"),
     INDEX_GOODS_FAILED(700, "get index goods failed"),
+    PAYMENT_SUCCESS(800, "payment success"),
+    PAYMENT_FAILED(801, "payment failed"),
+    PLACE_ORDER_SUCCESS(810, "place order success"),
+    PLACE_ORDER_FAILED(811, "place order failed"),
+    QUERY_ORDER_SUCCESS(820, "query order success"),
+    QUERY_ORDER_FAILED(821, "query order failed"),
+    POST_XML_SUCCESS(830, "post xml success"),
+    POST_XML_FAILED(831, "post xml failed")
     ;
 
     private Integer status;
