@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Goods</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <h1>Goods List</h1>
+</div>
+
+<div id="get_list">
+    <h2>Get List</h2>
+    <div id="goods_list"></div>
+    <p>page:<input type="text" id="page" value="1"></p>
+    <p>type:<input type="text" id="type" value="0"></p>
+    <button onclick="getGoodsList()">Get</button>
+</div>
+
+<div id="get_detail">
+    <h2>Get Detail</h2>
+    <div id="goods_detail"></div>
+    <p>goods_id:<input type="text" id="id"></p>
+    <button onclick="getGoodsDetail()">Get</button>
+</div>
+
+<div id="insert_goods">
+    <h2>Insert Goods</h2>
+    <div id="content-insert">
+        <p>_id:<input type="text" id="_id"></p>
+        <p>goods_id:<input type="text" id="goods_id"></p>
+        <p>goods_name:<input type="text" id="goods_name"></p>
+        <p>goods_price:<input type="text" id="goods_price"></p>
+        <p>goods_freight:<input type="text" id="goods_freight"></p>
+        <p>goods_sold_num:<input type="text" id="goods_sold_num"></p>
+        <p>goods_area:<input type="text" id="goods_area"></p>
+        <p>goods_introduce:<input type="text" id="goods_introduce"></p>
+        <p>goods_small_logo:<input type="text" id="goods_small_logo"></p>
+        <p>goods_pics:<input type="text" id="goods_pics"></p>
+        <button onclick="insertGoods()">Insert</button>
+    </div>
+</div>
+
+<div id="update_goods">
+    <h2>Update Goods</h2>
+    <div id="content-update">
+        <p>_id:<input type="text" id="update_id"></p>
+        <p>goods_id:<input type="text" id="update_goods_id"></p>
+        <p>goods_name:<input type="text" id="update_goods_name"></p>
+        <p>goods_price:<input type="text" id="update_goods_price"></p>
+        <p>goods_freight:<input type="text" id="update_goods_freight"></p>
+        <p>goods_sold_num:<input type="text" id="update_goods_sold_num"></p>
+        <p>goods_area:<input type="text" id="update_goods_area"></p>
+        <p>goods_introduce:<input type="text" id="update_goods_introduce"></p>
+        <p>goods_small_logo:<input type="text" id="update_goods_small_logo"></p>
+        <p>goods_pics:<input type="text" id="update_goods_pics"></p>
+        <button onclick="updateGoods()">Update</button>
+    </div>
+</div>
+
+<div id="search">
+    <h2>Search</h2>
+    <div id="search_res"></div>
+    <p>key words:<input type="text" id="name"></p>
+    <button onclick="search()">Search</button>
+</div>
+<script>
+    function getGoodsList() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/goods/getGoodsList',
+                dataType: 'json',
+                data: {
+                    page: $("#page").val(),
+                    type: $("#type").val()
+                },
+                success: function (res) {
+                    if (res.status % 10 !== 0) {
+                        alert(res.msg)
+                    }
+                    var goods_list = ''
+                    $.each(res.goods_list, function (i, item) {
+                        goods_list += '<div class="item"><div class="item-goodsId">good_id:' + res.goods_list[i].goods_id +
+                            '</div><div class="item-goodsName">good_name:' + res.goods_list[i].goods_name +
+                            '</div></div><br>'
+                        $("#goods_list").html(goods_list)
+                    })
+                }
+            }
+        )
+    }
+    function getGoodsDetail() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/goods/getGoodsDetail',
+                dataType: 'json',
+                data: {
+                    id: $("#id").val()
+                },
+                success: function (res) {
+                    if (res.status % 10 !== 0) {
+                        alert(res.msg)
+                    }
+                    var goods_detail = ''
+                    goods_detail += '<div class="detail"><div class="detail-id">good_id:' + res.goods_detail.goods_id +
+                        '</div><div class="detail-name">good_name:' + res.goods_detail.goods_name +
+                        '</div><div class="detail-price">good_price:' + res.goods_detail.goods_price +
+                        '</div><div class="detail-freight">good_freight:' + res.goods_detail.goods_freight +
+                        '</div><div class="detail-soldNum">good_sold_num:' + res.goods_detail.goods_sold_num +
+                        '</div><div class="detail-area">good_area:' + res.goods_detail.goods_area +
+                        '</div><div class="detail-smallLogo">good_small_logo:' + res.goods_detail.goods_small_logo +
+                        '</div><div class="detail-introduce">good_introduce:' + res.goods_detail.goods_introduce +
+                        '</div><div class="detail-pics">good_pics:' + res.goods_detail.goods_pics +
+                        '</div></div><br>'
+                    $("#goods_detail").html(goods_detail)
+                }
+            }
+        )
+    }
+    function search() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/goods/search',
+                dataType: 'json',
+                data: {
+                    name: $("#name").val()
+                },
+                success: function (res) {
+                    if (res.status % 10 !== 0) {
+                        alert(res.msg)
+                    }
+                    var search_res = ''
+                    $.each(res.search_results, function (i, item) {
+                        search_res += '<div class="item"><div class="item-goodsId">good_id:' + res.search_results[i].goods_id +
+                            '</div><div class="item-goodsName">good_name:' + res.search_results[i].goods_name +
+                            '</div></div><br>'
+                        $("#search_res").html(search_res)
+                    })
+                }
+            }
+        )
+    }
+    function insertGoods() {
+        var json = {
+            _id: $("#_id").val(),
+            goods_id: $("#goods_id").val(),
+            goods_name: $("#goods_name").val(),
+            goods_price: $("#goods_price").val(),
+            goods_freight: $("#goods_freight").val(),
+            goods_sold_num: $("#goods_sold_num").val(),
+            goods_area: $("#goods_area").val(),
+            goods_introduce: $("#goods_introduce").val(),
+            goods_small_logo: $("#goods_small_logo").val(),
+            goods_pics: $("#goods_pics").val()
+        }
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/goods/insertGoods',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(json),
+                success: function (res) {
+                    alert(res.msg)
+                }
+            }
+        )
+    }
+    function updateGoods() {
+        var json = {
+            _id: $("#update_id").val(),
+            goods_id: $("#update_goods_id").val(),
+            goods_name: $("#update_goods_name").val(),
+            goods_price: $("#update_goods_price").val(),
+            goods_freight: $("#update_goods_freight").val(),
+            goods_sold_num: $("#update_goods_sold_num").val(),
+            goods_area: $("#update_goods_area").val(),
+            goods_introduce: $("#update_goods_introduce").val(),
+            goods_small_logo: $("#update_goods_small_logo").val(),
+            goods_pics: $("#update_goods_pics").val()
+        }
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/goods/updateGoods',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(json),
+                success: function (res) {
+                    alert(res.msg)
+                }
+            }
+        )
+    }
+</script>
+</body>
+</html>

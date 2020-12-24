@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <div id="header">
+        <h1>Order</h1>
+    </div>
+    <div id="validate">
+        <h2>Login</h2>
+        <p>Openid:<input type="text" id="openid" value="edlison"></p>
+        <button onclick="login()">login</button>
+        <p>Token:<input type="text" id="token"></p>
+    </div>
+
+    <div id="submit">
+        <h2>Submit</h2>
+        <p></p>
+        <button>Submit</button>
+    </div>
+
+    <div id="getOrder">
+        <h2>GetOrder</h2>
+        <div id="orders"></div>
+        <button onclick="getOrder()">Get</button>
+    </div>
+
+    <div id="deleteOrder">
+        <h2>Delete</h2>
+        <p>order_id:<input type="text" id="order_id"></p>
+        <button onclick="deleteOrder()">Delete</button>
+    </div>
+
+    <div id="view">
+        <h2>View</h2>
+        <div id="show_view"></div>
+        <button onclick="showView()">Show</button>
+    </div>
+</div>
+<script>
+    function login() {
+        $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/api/user/login',
+                dataType: 'json',
+                data: {
+                    openid: $("#openid").val()
+                },
+                success: function (data) {
+                    if (data.status % 10 !== 0) {
+                        alert(data.msg)
+                    }
+                    alert('Remember your token: ' + data.data.token)
+                }
+            }
+        )
+    }
+    function submit() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/order/submitOrder',
+                dataType: 'json',
+                data: {
+                    order_id: $("#order_id").val(),
+                    openid: $("#openid").val(),
+                    token: $("#token").val()
+                },
+                success: function (res) {
+                    if (res.status % 10 !== 0) {
+                        alert(res.msg)
+                    }
+
+                }
+            }
+        )
+    }
+    function getOrder() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/order/getOrder',
+                dataType: 'json',
+                data: {
+                    openid: $("#openid").val(),
+                    token: $("#token").val()
+                },
+                success: function (res) {
+                    if (res.status % 10 !== 0) {
+                        alert(res.msg)
+                    }
+                    var orders = ''
+                    $.each(res.data.orders, function (i, item) {
+                        orders += '<div class="order"><div class="order-id">order_id:' + res.data.orders[i].order_id +
+                            '</div><div class="order-expressName">express_name:' + res.data.orders[i].express_name +
+                            '</div><div class="order-expressAddress">express_addr:' + res.data.orders[i].express_address +
+                            '</div><div class="order-payment">order_payment:' + res.data.orders[i].order_payment +
+                            '</div><div class="order-shippingMoney">shipping_money:' + res.data.orders[i].order_shipping_money +
+                            '</div><div class="order-point">order_point:' + res.data.orders[i].order_point +
+                            '</div><div class="order-status">order_status:' + res.data.orders[i].order_status +
+                            '</div></div><br>'
+
+                        order_detail = ''
+                        $.each(res.data.orders[i].order_detail, function (j, item_j) {
+                            order_detail += '<div class="order-detail"><div class="order-detail-product-id">product_id:' + res.data.orders[i].order_detail[j].product_id +
+                                '</div><div class="order-detail-product-name">product_name:' + res.data.orders[i].order_detail[j].product_name +
+                                '</div><div class="order-detail-product-price">product_price:' + res.data.orders[i].order_detail[j].product_price +
+                                '</div><div class="order-detail-product_num">product_num:' + res.data.orders[i].order_detail[j].product_num +
+                                '</div><div class="order-detail-goods-small-logo">goods-small-logo:' + res.data.orders[i].order_detail[j].goods_small_logo +
+                                '</div></div><br>'
+                        })
+
+                        orders += order_detail
+                        $("#orders").html(orders)
+                    })
+                }
+            }
+        )
+    }
+    function deleteOrder() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/order/deleteOrder',
+                dataType: 'json',
+                data: {
+                    openid: $("#openid").val(),
+                    token: $("#token").val(),
+                    id: $("#order_id").val()
+                },
+                success: function (res) {
+                    if (res % 10 !== 0) {
+                        alert(res.msg)
+                    } else {
+                        alert('delete success')
+                    }
+                }
+            }
+        )
+    }
+    function showView() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/order/showView',
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status % 10 !== 0) {
+                        alert(res.msg)
+                    } else {
+                        var view = ''
+                        $.each(res.data.orderView, function (i, item) {
+                            view += '<div class="orderView"><div class="order_id">order_id:' + res.data.orderView[i].order_id +
+                                '</div><div class="openid_fk">openid_fk:' + res.data.orderView[i].openid_fk +
+                                '</div><div class="express_name">express_name:' + res.data.orderView[i].express_name +
+                                '</div><div class="express_address">express_address:' + res.data.orderView[i].express_address +
+                                '</div><div class="order_payment">order_payment:' + res.data.orderView[i].order_payment +
+                                '</div><div class="order_shipping_money">order_shipping_money:' + res.data.orderView[i].order_shipping_money +
+                                '</div><div class="order_point">order_point:' + res.data.orderView[i].order_point +
+                                '</div><div class="order_status">order_status:' + res.data.orderView[i].order_status +
+                                '</div><div class="order_create_time">order_create_time:' + res.data.orderView[i].order_create_time +
+                                '</div><div class="order_detail_id">order_detail_id:' + res.data.orderView[i].order_detail_id +
+                                '</div><div class="order_id_fk">order_id_fk:' + res.data.orderView[i].order_id_fk +
+                                '</div><div class="product_id">product_id:' + res.data.orderView[i].product_id +
+                                '</div><div class="product_name">product_name:' + res.data.orderView[i].product_name +
+                                '</div><div class="product_price">product_price:' + res.data.orderView[i].product_price +
+                                '</div><div class="product_num">product_num:' + res.data.orderView[i].product_num +
+                                '</div></div><br>'
+
+                            $("#show_view").html(view)
+                        })
+                    }
+                }
+            }
+        )
+    }
+</script>
+</body>
+</html>

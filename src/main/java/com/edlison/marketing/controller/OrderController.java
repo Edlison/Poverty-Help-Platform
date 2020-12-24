@@ -52,4 +52,32 @@ public class OrderController {
 
         return jsonObject;
     }
+
+    @PostMapping("/deleteOrder")
+    @ResponseBody
+    public JSONObject deleteOrder(@RequestParam(name = "openid") String openid, @RequestParam(name = "token") String token, @RequestParam(name = "id") String order_id) {
+        JSONObject jsonObject = new JSONObject();
+
+        SystemResult deleteOrderRes = orderService.deleteOrder(openid, token, order_id);
+
+        jsonObject.put("status", deleteOrderRes.getStatus());
+        jsonObject.put("msg", deleteOrderRes.getMsg());
+        jsonObject.put("data", deleteOrderRes.getData());
+
+        return jsonObject;
+    }
+
+    @PostMapping("/showView")
+    @ResponseBody
+    public JSONObject showView() {
+        JSONObject jsonObject = new JSONObject();
+
+        SystemResult showViewRes = orderService.showView();
+
+        jsonObject.put("status", showViewRes.getStatus());
+        jsonObject.put("msg", showViewRes.getMsg());
+        jsonObject.put("data", showViewRes.getData());
+
+        return jsonObject;
+    }
 }

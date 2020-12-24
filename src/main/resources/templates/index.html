@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Test</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <h1 id="header">This is a simple store</h1>
+</div>
+<div id="validate">
+    <h2>Login</h2>
+    <p>Openid:<input type="text" id="openid" value="edlison"></p>
+    <button onclick="login()">login</button>
+    <p>Token:<input type="text" id="token"></p>
+</div>
+<div id="info">
+    <h2>User Info</h2>
+    <div>
+        <p>balance:</p>
+        <p id="balance"></p>
+    </div>
+    <div>
+        <p>point:</p>
+        <p id="point"></p>
+    </div>
+    <button onclick="getUserInfo()">Get</button>
+</div>
+<script>
+    function login() {
+        $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/api/user/login',
+                dataType: 'json',
+                data: {
+                    openid: $("#openid").val()
+                },
+                success: function (data) {
+                    if (data.status % 10 !== 0) {
+                        alert(data.msg)
+                    }
+                    alert('Remember your token: ' + data.data.token)
+                }
+            }
+        )
+    }
+    function getUserInfo() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/user/getUserInfo',
+                dataType: 'json',
+                data: {
+                    openid: $("#openid").val(),
+                    token: $("#token").val()
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (data.status % 10 !== 0) {
+                        alert(data.msg)
+                    }
+                    $("#balance").text(data.data.user_balance)
+                    $("#point").text(data.data.user_point)
+                }
+            }
+        )
+    }
+</script>
+</body>
+</html>

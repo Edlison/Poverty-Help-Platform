@@ -2,10 +2,8 @@ package com.edlison.marketing.mapper;
 
 import com.edlison.marketing.DTO.OrderDTO;
 import com.edlison.marketing.DTO.OrderDetailDTO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.edlison.marketing.DTO.OrderViewDTO;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,4 +31,10 @@ public interface OrderMapper {
 
     @Select("select * from order_detail where order_id_fk = #{order_id}")
     List<OrderDetailDTO> getOrderDetail(@Param("order_id") Long order_id);
+
+    @Delete("delete from order_master where order_id = #{order_id}")
+    void deleteOrder(@Param("order_id") String order_id);
+
+    @Select("select * from v_order")
+    List<OrderViewDTO> showView();
 }

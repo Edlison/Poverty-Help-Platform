@@ -3,14 +3,12 @@ package com.edlison.marketing.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.edlison.marketing.DTO.GoodsDetailDTO;
 import com.edlison.marketing.DTO.GoodsListDTO;
+import com.edlison.marketing.result.ResultTrans;
 import com.edlison.marketing.result.SystemResult;
 import com.edlison.marketing.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -69,6 +67,32 @@ public class GoodsController {
         jsonObject.put("msg", res.getMsg());
         jsonObject.put("status", res.getStatus());
         jsonObject.put("search_results", search);
+
+        return jsonObject;
+    }
+
+    @PostMapping("/insertGoods")
+    @ResponseBody
+    public JSONObject insertGood(@RequestBody GoodsDetailDTO goodsDetailDTO) {
+        JSONObject jsonObject = new JSONObject();
+
+        SystemResult insertGoodsRes = goodsService.insertGoods(goodsDetailDTO);
+
+        jsonObject.put("status", insertGoodsRes.getStatus());
+        jsonObject.put("msg", insertGoodsRes.getMsg());
+
+        return jsonObject;
+    }
+
+    @PostMapping("/updateGoods")
+    @ResponseBody
+    public JSONObject updateGood(@RequestBody GoodsDetailDTO goodsDetailDTO) {
+        JSONObject jsonObject = new JSONObject();
+
+        SystemResult updateGoodsRes = goodsService.updateGoods(goodsDetailDTO);
+
+        jsonObject.put("status", updateGoodsRes.getStatus());
+        jsonObject.put("msg", updateGoodsRes.getMsg());
 
         return jsonObject;
     }

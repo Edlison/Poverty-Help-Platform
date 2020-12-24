@@ -32,7 +32,15 @@ public enum SystemResult {
     QUERY_ORDER_SUCCESS(820, "query order success"),
     QUERY_ORDER_FAILED(821, "query order failed"),
     POST_XML_SUCCESS(830, "post xml success"),
-    POST_XML_FAILED(831, "post xml failed")
+    POST_XML_FAILED(831, "post xml failed"),
+    DELETE_ORDER_SUCCESS(840, "delete order success"),
+    DELETE_ORDER_FAIL(841, "delete order fail"),
+    GOODS_INSERT_SUCCESS(850, "goods insert success"),
+    GOODS_INSERT_FAIL(851, "goods insert fail"),
+    GOODS_UPDATE_SUCCESS(860, "goods update success"),
+    GOODS_UPDATE_FAIL(861, "goods update fail"),
+    ORDER_VIEW_SUCCESS(870, "order view success"),
+    ORDER_VIEW_FAIL(871, "order view fail")
     ;
 
     private Integer status;

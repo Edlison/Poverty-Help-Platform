@@ -4,6 +4,7 @@ import com.edlison.marketing.DTO.GoodsDetailDTO;
 import com.edlison.marketing.DTO.GoodsListDTO;
 import com.edlison.marketing.appoint.GoodsAppoint;
 import com.edlison.marketing.mapper.GoodsMapper;
+import com.edlison.marketing.result.SystemResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +44,23 @@ public class GoodsService {
         List<GoodsListDTO> goodsSearch = goodsMapper.getGoodsSearch(name);
 
         return goodsSearch;
+    }
+
+    public SystemResult insertGoods(GoodsDetailDTO goodsDetailDTO) {
+        int row = goodsMapper.insertGoods(goodsDetailDTO.get_id(), goodsDetailDTO.getGoods_id(), goodsDetailDTO.getGoods_name(), goodsDetailDTO.getGoods_price(), goodsDetailDTO.getGoods_freight(), goodsDetailDTO.getGoods_sold_num(), goodsDetailDTO.getGoods_area(), goodsDetailDTO.getGoods_introduce(), goodsDetailDTO.getGoods_small_logo(), goodsDetailDTO.getGoods_pics());
+        if (row != 0) {
+            return SystemResult.GOODS_INSERT_SUCCESS;
+        } else {
+            return SystemResult.GOODS_INSERT_FAIL;
+        }
+    }
+
+    public SystemResult updateGoods(GoodsDetailDTO goodsDetailDTO) {
+        int row = goodsMapper.updateGoods(goodsDetailDTO.get_id(), goodsDetailDTO.getGoods_id(), goodsDetailDTO.getGoods_name(), goodsDetailDTO.getGoods_price(), goodsDetailDTO.getGoods_freight(), goodsDetailDTO.getGoods_sold_num(), goodsDetailDTO.getGoods_area(), goodsDetailDTO.getGoods_introduce(), goodsDetailDTO.getGoods_small_logo(), goodsDetailDTO.getGoods_pics());
+        if (row != 0) {
+            return SystemResult.GOODS_UPDATE_SUCCESS;
+        } else {
+            return SystemResult.GOODS_UPDATE_FAIL;
+        }
     }
 }

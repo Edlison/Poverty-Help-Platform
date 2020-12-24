@@ -79,4 +79,17 @@ public class UserService {
             return userGetInfoRes;
         }
     }
+
+    public SystemResult login(String openid) {
+        User user = userMapper.getUser(openid);
+        if(user == null) {
+            return SystemResult.LOGIN_WX_FAILED;
+        }
+        String token = userAppoint.generateToken(user.getOpenid(), user.getUser_session());
+        JSONObject data = new JSONObject();
+        data.put("token", token);
+        SystemResult loginRes = SystemResult.LOGIN_WX_SUCCESS;
+        loginRes.setData(data);
+        return loginRes;
+    }
 }

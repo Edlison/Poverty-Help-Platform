@@ -51,4 +51,16 @@ public class UserController {
 
         return jsonObject;
     }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public JSONObject login(@RequestParam(name = "openid")String openid){
+        SystemResult loginRes = userService.login(openid);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status", loginRes.getStatus());
+        jsonObject.put("msg", loginRes.getMsg());
+        jsonObject.put("data", loginRes.getData());
+
+        return jsonObject;
+    }
 }

@@ -3,6 +3,7 @@ package com.edlison.marketing.service;
 import com.alibaba.fastjson.JSONObject;
 import com.edlison.marketing.DTO.OrderDTO;
 import com.edlison.marketing.DTO.OrderDetailDTO;
+import com.edlison.marketing.DTO.OrderViewDTO;
 import com.edlison.marketing.appoint.OrderAppoint;
 import com.edlison.marketing.mapper.GoodsMapper;
 import com.edlison.marketing.mapper.OrderMapper;
@@ -80,5 +81,33 @@ public class OrderService {
 
             return orderGetInfoRes;
         }
+    }
+
+    public SystemResult deleteOrder(String openid, String token, String order_id) {
+        SystemResult checkSessionRes = userService.checkSession(openid, token);
+
+        if (ResultTrans.isOK(checkSessionRes)) {
+            orderMapper.deleteOrder(order_id);
+            return SystemResult.DELETE_ORDER_SUCCESS;
+        }
+
+        return SystemResult.DELETE_ORDER_FAIL;
+    }
+
+    public SystemResult showView() {
+        SystemResult orderViewRes;
+        JSONObject data = new JSONObject();
+
+        List<OrderViewDTO> orderViewDTO = orderMapper.showView();
+
+        if (orderViewDTO != null) {
+            orderViewRes = SystemResult.ORDER_VIEW_SUCCESS;
+            data.put("orderView", orderViewDTO);
+            orderViewRes.setData(data);
+        } else {
+            orderViewRes = SystemResult.ORDER_VIEW_FAIL;
+        }
+
+        return orderViewRes;
     }
 }

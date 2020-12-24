@@ -10,4 +10,6 @@ public class OrderMaster {
     private BigDecimal order_payment;
     private BigDecimal order_shipping_money;
     private Long order_point;
+    private Long order_status;
+    private String order_create_time;
 }
