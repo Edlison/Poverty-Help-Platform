@@ -44,7 +44,7 @@ public class GoodsController {
         SystemResult res;
         List<GoodsListDTO> goodsList = goodsService.getGoodsList(page, type);
 
-        if (goodsList != null) res = SystemResult.GOODS_LIST_SUCCESS;
+        if (goodsList != null && goodsList.size() != 0) res = SystemResult.GOODS_LIST_SUCCESS;
         else res = SystemResult.GOODS_LIST_FAILED;
 
         jsonObject.put("msg", res.getMsg());
@@ -61,7 +61,7 @@ public class GoodsController {
         SystemResult res;
         List<GoodsListDTO> search = goodsService.goodsSearch(name);
 
-        if (search != null) res = SystemResult.GOODS_SEARCH_SUCCESS;
+        if (search != null && search.size() != 0) res = SystemResult.GOODS_SEARCH_SUCCESS;
         else res = SystemResult.GOODS_SEARCH_FAILED;
 
         jsonObject.put("msg", res.getMsg());
@@ -75,6 +75,12 @@ public class GoodsController {
     @ResponseBody
     public JSONObject insertGood(@RequestBody GoodsDetailDTO goodsDetailDTO) {
         JSONObject jsonObject = new JSONObject();
+        SystemResult unique = goodsService.checkGoodsUnique(goodsDetailDTO.getGoods_id());
+        if (!ResultTrans.isOK(unique)) {
+            jsonObject.put("status", unique.getStatus());
+            jsonObject.put("msg", unique.getMsg());
+            return jsonObject;
+        }
 
         SystemResult insertGoodsRes = goodsService.insertGoods(goodsDetailDTO);
 
@@ -88,6 +94,12 @@ public class GoodsController {
     @ResponseBody
     public JSONObject updateGood(@RequestBody GoodsDetailDTO goodsDetailDTO) {
         JSONObject jsonObject = new JSONObject();
+        SystemResult unique = goodsService.checkGoodsUnique(goodsDetailDTO.getGoods_id());
+        if (!ResultTrans.isOK(unique)) {
+            jsonObject.put("status", unique.getStatus());
+            jsonObject.put("msg", unique.getMsg());
+            return jsonObject;
+        }
 
         SystemResult updateGoodsRes = goodsService.updateGoods(goodsDetailDTO);
 

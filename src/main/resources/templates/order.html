@@ -40,6 +40,13 @@
         <div id="show_view"></div>
         <button onclick="showView()">Show</button>
     </div>
+
+    <div id="sum">
+        <h2>Show Order By SUM</h2>
+        <div id="show_sum"></div>
+        <div>Limit:<input type="text" id="limit" value="3"></div>
+        <button onclick="showOrderSum()">Show</button>
+    </div>
 </div>
 <script>
     function login() {
@@ -53,6 +60,7 @@
                 success: function (data) {
                     if (data.status % 10 !== 0) {
                         alert(data.msg)
+                        return
                     }
                     alert('Remember your token: ' + data.data.token)
                 }
@@ -92,6 +100,7 @@
                 success: function (res) {
                     if (res.status % 10 !== 0) {
                         alert(res.msg)
+                        return
                     }
                     var orders = ''
                     $.each(res.data.orders, function (i, item) {
@@ -122,6 +131,10 @@
         )
     }
     function deleteOrder() {
+        if (isNaN($("#order_id").val())) {
+            alert("请输入数字")
+            return
+        }
         $.ajax(
             {
                 type: 'POST',
@@ -151,6 +164,7 @@
                 success: function (res) {
                     if (res.status % 10 !== 0) {
                         alert(res.msg)
+                        return
                     } else {
                         var view = ''
                         $.each(res.data.orderView, function (i, item) {
@@ -172,6 +186,36 @@
                                 '</div></div><br>'
 
                             $("#show_view").html(view)
+                        })
+                    }
+                }
+            }
+        )
+    }
+    function showOrderSum() {
+        if (isNaN($("#limit").val())) {
+            alert("请输入数字")
+            return
+        }
+        $.ajax(
+            {
+                type: 'POST',
+                url: 'http://localhost:8080/api/order/showOrderBySum',
+                dataType: 'json',
+                data: {
+                    limit: $("#limit").val()
+                },
+                success: function (res) {
+                    if (res.status % 10 !== 0) {
+                        alert(res.msg)
+                    } else {
+                        var orderSum = ''
+                        $.each(res.data.orderSum, function (i, item) {
+                            orderSum += '<div id="order_sum"><div id="order_openid">user:' + res.data.orderSum[i].openid_fk +
+                                '</div><div id="order_total_fee">total_fee:' + res.data.orderSum[i].total_fee +
+                                '</div></div><br>'
+
+                            $("#show_sum").html(orderSum)
                         })
                     }
                 }

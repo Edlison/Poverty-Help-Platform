@@ -40,7 +40,13 @@ public enum SystemResult {
     GOODS_UPDATE_SUCCESS(860, "goods update success"),
     GOODS_UPDATE_FAIL(861, "goods update fail"),
     ORDER_VIEW_SUCCESS(870, "order view success"),
-    ORDER_VIEW_FAIL(871, "order view fail")
+    ORDER_VIEW_FAIL(871, "order view fail"),
+    SHOW_ORDER_SUM_SUCCESS(880, "show order sum success"),
+    SHOW_ORDER_SUM_FAIL(881, "show order sum fail"),
+    GOODS_UNIQUE_SUCCESS(890, ""),
+    GOODS_UNIQUE_FAIL(891, "goods unique fail"),
+    SUCCESS(900, "success"),
+    FAIL(901, "fail")
     ;
 
     private Integer status;

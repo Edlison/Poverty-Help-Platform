@@ -21,23 +21,23 @@
 <div id="get_detail">
     <h2>Get Detail</h2>
     <div id="goods_detail"></div>
-    <p>goods_id:<input type="text" id="id"></p>
+    <p>goods_id:<input type="text" id="id" value="null"></p>
     <button onclick="getGoodsDetail()">Get</button>
 </div>
 
 <div id="insert_goods">
     <h2>Insert Goods</h2>
     <div id="content-insert">
-        <p>_id:<input type="text" id="_id"></p>
-        <p>goods_id:<input type="text" id="goods_id"></p>
-        <p>goods_name:<input type="text" id="goods_name"></p>
-        <p>goods_price:<input type="text" id="goods_price"></p>
-        <p>goods_freight:<input type="text" id="goods_freight"></p>
-        <p>goods_sold_num:<input type="text" id="goods_sold_num"></p>
-        <p>goods_area:<input type="text" id="goods_area"></p>
-        <p>goods_introduce:<input type="text" id="goods_introduce"></p>
-        <p>goods_small_logo:<input type="text" id="goods_small_logo"></p>
-        <p>goods_pics:<input type="text" id="goods_pics"></p>
+        <p>_id:<input type="text" id="_id" value="null"></p>
+        <p>goods_id:<input type="text" id="goods_id" value="null"></p>
+        <p>goods_name:<input type="text" id="goods_name" value="null"></p>
+        <p>goods_price:<input type="text" id="goods_price" value="null"></p>
+        <p>goods_freight:<input type="text" id="goods_freight" value="null"></p>
+        <p>goods_sold_num:<input type="text" id="goods_sold_num" value="null"></p>
+        <p>goods_area:<input type="text" id="goods_area" value="null"></p>
+        <p>goods_introduce:<input type="text" id="goods_introduce" value="null"></p>
+        <p>goods_small_logo:<input type="text" id="goods_small_logo" value="null"></p>
+        <p>goods_pics:<input type="text" id="goods_pics" value="null"></p>
         <button onclick="insertGoods()">Insert</button>
     </div>
 </div>
@@ -45,16 +45,16 @@
 <div id="update_goods">
     <h2>Update Goods</h2>
     <div id="content-update">
-        <p>_id:<input type="text" id="update_id"></p>
-        <p>goods_id:<input type="text" id="update_goods_id"></p>
-        <p>goods_name:<input type="text" id="update_goods_name"></p>
-        <p>goods_price:<input type="text" id="update_goods_price"></p>
-        <p>goods_freight:<input type="text" id="update_goods_freight"></p>
-        <p>goods_sold_num:<input type="text" id="update_goods_sold_num"></p>
-        <p>goods_area:<input type="text" id="update_goods_area"></p>
-        <p>goods_introduce:<input type="text" id="update_goods_introduce"></p>
-        <p>goods_small_logo:<input type="text" id="update_goods_small_logo"></p>
-        <p>goods_pics:<input type="text" id="update_goods_pics"></p>
+        <p>_id:<input type="text" id="update_id" value="null"></p>
+        <p>goods_id:<input type="text" id="update_goods_id" value="null"></p>
+        <p>goods_name:<input type="text" id="update_goods_name" value="null"></p>
+        <p>goods_price:<input type="text" id="update_goods_price" value="null"></p>
+        <p>goods_freight:<input type="text" id="update_goods_freight" value="null"></p>
+        <p>goods_sold_num:<input type="text" id="update_goods_sold_num" value="null"></p>
+        <p>goods_area:<input type="text" id="update_goods_area" value="null"></p>
+        <p>goods_introduce:<input type="text" id="update_goods_introduce" value="null"></p>
+        <p>goods_small_logo:<input type="text" id="update_goods_small_logo" value="null"></p>
+        <p>goods_pics:<input type="text" id="update_goods_pics" value="null"></p>
         <button onclick="updateGoods()">Update</button>
     </div>
 </div>
@@ -62,11 +62,15 @@
 <div id="search">
     <h2>Search</h2>
     <div id="search_res"></div>
-    <p>key words:<input type="text" id="name"></p>
+    <p>key words:<input type="text" id="name" value="null"></p>
     <button onclick="search()">Search</button>
 </div>
 <script>
     function getGoodsList() {
+        if (isNaN($("#page").val()) || isNaN($("#type").val()) && 2 >= $("#type").val() >= 0 ) {
+            alert('请输入合法数字')
+            return
+        }
         $.ajax(
             {
                 type: 'POST',
@@ -79,6 +83,7 @@
                 success: function (res) {
                     if (res.status % 10 !== 0) {
                         alert(res.msg)
+                        return
                     }
                     var goods_list = ''
                     $.each(res.goods_list, function (i, item) {
@@ -92,6 +97,10 @@
         )
     }
     function getGoodsDetail() {
+        if (isNaN($("#id").val())) {
+            alert("请输入数字")
+            return
+        }
         $.ajax(
             {
                 type: 'POST',
@@ -103,6 +112,7 @@
                 success: function (res) {
                     if (res.status % 10 !== 0) {
                         alert(res.msg)
+                        return
                     }
                     var goods_detail = ''
                     goods_detail += '<div class="detail"><div class="detail-id">good_id:' + res.goods_detail.goods_id +
@@ -132,6 +142,7 @@
                 success: function (res) {
                     if (res.status % 10 !== 0) {
                         alert(res.msg)
+                        return
                     }
                     var search_res = ''
                     $.each(res.search_results, function (i, item) {
@@ -144,7 +155,14 @@
             }
         )
     }
+    function isNNULL(v) {
+        return !(v === null || v === "" || v === undefined);
+    }
     function insertGoods() {
+        if (isNaN($("#_id").val()) || isNaN($("#goods_id").val()) || isNaN($("#goods_price").val()) || isNaN($("#goods_freight").val()) || isNaN($("#goods_sold_num").val())) {
+            alert("请输入数字")
+            return
+        }
         var json = {
             _id: $("#_id").val(),
             goods_id: $("#goods_id").val(),
@@ -171,6 +189,10 @@
         )
     }
     function updateGoods() {
+        if (isNaN($("#_id").val()) || isNaN($("#goods_id").val()) || isNaN($("#goods_price").val()) || isNaN($("#goods_freight").val()) || isNaN($("#goods_sold_num").val())) {
+            alert("请输入数字")
+            return
+        }
         var json = {
             _id: $("#update_id").val(),
             goods_id: $("#update_goods_id").val(),

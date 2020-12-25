@@ -63,4 +63,13 @@ public class GoodsService {
             return SystemResult.GOODS_UPDATE_FAIL;
         }
     }
+
+    public SystemResult checkGoodsUnique(Long goods_id) {
+        GoodsDetailDTO goodsDetail = goodsMapper.getGoodsDetail(goods_id);
+        if (goodsDetail != null) {
+            return SystemResult.GOODS_UNIQUE_FAIL;
+        } else {
+            return SystemResult.GOODS_UNIQUE_SUCCESS;
+        }
+    }
 }

@@ -2,6 +2,8 @@ package com.edlison.marketing.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.edlison.marketing.DTO.OrderDTO;
+import com.edlison.marketing.DTO.ShowOrderDTO;
+import com.edlison.marketing.mapper.OrderMapper;
 import com.edlison.marketing.result.ResultTrans;
 import com.edlison.marketing.result.SystemResult;
 import com.edlison.marketing.service.OrderService;
@@ -9,6 +11,8 @@ import com.edlison.marketing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/order")
@@ -19,6 +23,9 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    OrderMapper orderMapper;
 
     @PostMapping("/submitOrder")
     @ResponseBody
@@ -79,5 +86,29 @@ public class OrderController {
         jsonObject.put("data", showViewRes.getData());
 
         return jsonObject;
+    }
+
+    @PostMapping("/showOrderBySum")
+    @ResponseBody
+    public JSONObject showOrderBySum(@RequestParam(name = "limit") Long limit) {
+        JSONObject jsonObject = new JSONObject();
+
+        List<ShowOrderDTO> showOrderDTOS = orderMapper.showOrderBySum(limit);
+        SystemResult systemResult;
+
+        if (showOrderDTOS != null && showOrderDTOS.size() != 0) {
+            systemResult = SystemResult.SHOW_ORDER_SUM_SUCCESS;
+            jsonObject.put("status", systemResult.getStatus());
+            jsonObject.put("msg", systemResult.getMsg());
+            JSONObject data = new JSONObject();
+            data.put("orderSum", showOrderDTOS);
+            jsonObject.put("data", data);
+        } else {
+            systemResult = SystemResult.SHOW_ORDER_SUM_FAIL;
+            jsonObject.put("status", systemResult.getStatus());
+            jsonObject.put("msg", systemResult.getMsg());
+        }
+        return jsonObject;
+
     }
 }

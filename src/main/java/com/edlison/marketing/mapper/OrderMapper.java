@@ -3,6 +3,7 @@ package com.edlison.marketing.mapper;
 import com.edlison.marketing.DTO.OrderDTO;
 import com.edlison.marketing.DTO.OrderDetailDTO;
 import com.edlison.marketing.DTO.OrderViewDTO;
+import com.edlison.marketing.DTO.ShowOrderDTO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -37,4 +38,7 @@ public interface OrderMapper {
 
     @Select("select * from v_order")
     List<OrderViewDTO> showView();
+
+    @Select("select openid_fk, sum(od.product_price) total_fee from order_master om join order_detail od on om.order_id = od.order_id_fk group by openid_fk order by sum(od.product_price) desc limit #{limit}")
+    List<ShowOrderDTO> showOrderBySum(@Param("limit") Long limit);
 }
