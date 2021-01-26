@@ -1,4 +1,4 @@
-//package com.edlison.marketing.schedule;
+//package com.edlison.common.schedule;
 //
 //import com.edlison.marketing.mapper.CronMapper;
 //import org.springframework.beans.factory.annotation.Autowired;

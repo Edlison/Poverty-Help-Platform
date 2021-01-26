@@ -1,4 +1,4 @@
-package com.edlison.marketing.schedule;
+package com.edlison.common.schedule;
 
 import org.quartz.JobExecutionContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
